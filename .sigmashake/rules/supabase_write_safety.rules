@@ -1,0 +1,20 @@
+# supabase_write_safety.rules
+# Technology: supabase | Capability: write
+
+rule supabase-block-unsafe-patterns {
+  enabled true
+  priority 90
+  severity error
+  DENY write
+  IF path GLOB "**/*" AND content CONTAINS "UNSAFE_supabase_PATTERN"
+  MESSAGE "Blocked an unsafe pattern in supabase. Use the recommended best practices for 2025/2026."
+}
+
+rule supabase-force-updated-api {
+  enabled true
+  priority 80
+  severity warning
+  ASK write
+  IF path GLOB "**/*" AND content CONTAINS "OLD_supabase_API"
+  MESSAGE "You are using an outdated API for supabase. Please upgrade to the newer API."
+}
